@@ -62,7 +62,6 @@
 
 ### Task 3. Upload an HTML document
 - In this task, you will upload the index.html file for your webpage to the S3 bucket.
-
 13. Open the context menu (right-click) for the following link, and then choose **Save link as**: [index.html](https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-100-ACCAIC-1-35050/03-lab-5-cloudfront/s3/index.html)
 14. Save the index.html file to your local computer.
 15. In the console, choose the **Objects** tab.
@@ -77,5 +76,52 @@
 21. Choose **Close**.
     - The index.html file appears in the **Objects** list.
       
+
+### Task 4. Test your website
+22. Select the **Properties** tab, and scroll down to the **Static website hosting** section.
+23. Choose **Edit**.
+24. Select **Enable**.
+25. In the **Index document** text box, enter `index.html`
+26. Select **Save changes**.
+27. Scroll down to the **Static website hosting** section again, and copy the **Bucket website endpoint** URL to your clipboard.
+28. Open a new tab in your web browser, paste the URL you just copied, and press **Enter**.
+    - The **Hello World** webpage should display. You have successfully hosted a static website using an S3 bucket!
+
+
+### Task 5. Create a CloudFront distribution to serve your website
+- In this task, you will create an Amazon CloudFront distribution to serve your website.
+29. Choose the **Services** menu, locate the **Networking & Content Delivery** section, and choose **CloudFront**.
+30. Choose Create a **CloudFront Distribution**.
+31. Under **Origin**, choose the text box next to **Origin domain** and select the endpoint from your S3 bucket.
+32. For **Viewer Protocol Policy**, ensure that **HTTP and HTTPS** is selected. Under **Web Application Firewall (WAF)** choose **Do not enable security protections**.
+33. Scroll to the bottom of the page and select **Create Distribution**.
+    - A new CloudFront distribution displays in the distributions list. The Status will say Deploying until your website has been distributed. This may take up to 20 minutes.
+    - When the Status says **Enabled**, you can test your distribution.
+34. Copy the **Domain Name** value for your distribution and save it to a text editor to use in a later step.
+35. Create a new HTML file to test the distribution.
+    - Find and download an image from the internet.
+    - Navigate to your S3 bucket and upload the image file to it, making sure to grant public access as you did when uploading the HTML file earlier in this lab.
+    - Create a new text file using Notepad and copy the following text into it:
+      ```text
+      <html>
+      <head>My CloudFront Test</head>
+      <body>
+        <p>My test content goes here.</p>
+        <p><img src="http://domain-name/object-name" alt="my test image">
+      </body>
+      </html>
+      ```
+     - Replace **domain-name** with the domain name that you copied earlier for your CloudFront distribution.
+     - Replace **object-name** with the file name of the picture file that you uploaded to your S3 bucket.
+     - The edited line of code should look similar to the following:
+       ```text
+       <p><img src="http://d2f1zrxb2zaf30.cloudfront.net/picture.jpg" alt="my test image">
+       ```
+     - Save the text file with an HTML extension.
+36. Use an internet browser to open the HTML file that you just created.
+- If the image that you uploaded shows, your CloudFront distribution was successful. If not, repeat the lab.
+
+
+
 
 
