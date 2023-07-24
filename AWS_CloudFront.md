@@ -141,10 +141,14 @@
       ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/fd6bd9a4-8e1b-44f1-b52d-18a44738eb86)
 
     - When the Status says **Enabled**, you can test your distribution.
+      ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/a93a431a-3a1b-4771-ad07-a030e148be84)
+
 34. Copy the **Domain Name** value for your distribution and save it to a text editor to use in a later step.
 35. Create a new HTML file to test the distribution.
     - Find and download an image from the internet.
     - Navigate to your S3 bucket and upload the image file to it, making sure to grant public access as you did when uploading the HTML file earlier in this lab.
+      ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/dc631f04-4252-44e9-9a11-f2774d65b64b)
+
     - Create a new text file using Notepad and copy the following text into it:
       ```text
       <html>
@@ -161,8 +165,12 @@
        ```text
        <p><img src="http://d2f1zrxb2zaf30.cloudfront.net/picture.jpg" alt="my test image">
        ```
+       ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/7590e690-70e3-4fbd-a62e-401555fd1d00)
+
      - Save the text file with an HTML extension.
 36. Use an internet browser to open the HTML file that you just created.
+    ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/74c033f7-6811-4990-af38-443154f4bbb9)
+
 - If the image that you uploaded shows, your CloudFront distribution was successful. If not, repeat the lab.
 
 
