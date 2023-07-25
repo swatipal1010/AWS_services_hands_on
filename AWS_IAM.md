@@ -134,6 +134,21 @@
     - In the upper-right corner of the page, choose **user-2**.
     - Choose **Sign Out**.
 
+#### Test user-3 permissions
+48. Paste the sign-in link into the private browser again, and press ENTER.
+49. Sign in with the following credentials:
+    - **IAM user name:** `user-3`
+    - **Password:** `Lab-Password3`
+50. Choose the **Services** menu, and choose **EC2**.
+51. In the navigation pane on the left, choose **Instances**.
+    - An EC2 instance is listed. As an Amazon EC2 Administrator, this user should have permissions to *Stop* the EC2 instance.
+    - If you cannot see an EC2 instance, then your Region might be incorrect. In the upper-right corner of the page, choose the Region name, and then choose the Region that you were in at the beginning of the lab (for example, **N. Virginia**)
+52. Select the EC2 instance.
+53. Choose the **Instance state** menu, and then choose **Stop instance**.
+54. To confirm that you want to stop the instance, choose **Stop**.
+    - This time, the action is successful because *user-3* has permissions to stop EC2 instances. The **Instance state** changes to *Stopping and starts to shut down*.
+55. Close your private browser window.
+
 
 
 
