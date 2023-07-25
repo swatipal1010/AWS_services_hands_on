@@ -1,1 +1,1 @@
-# AWS_services_handson
+# AWS_services_hands-on
