@@ -1,0 +1,142 @@
+## AWS Elastic Load Balancer (ELB)
+### Create and configure a load balancer, register a webpage as a target for the load balancer, and test the load balancer.
+
+### Task 1. Launch an EC2 instance
+1. In the search box to the right of **Services**, search for and choose **EC2** to open the EC2 console.
+2. In the left navigation pane, choose **EC2 Dashboard** to ensure you are on the dashboard page.
+3. Choose the **Launch instance** button in the middle of the page, then select **Launch instance** from the dropdown menu.
+4. In the *Name* and *tags* panel:
+   - For *Name* enter `Web Server 1`
+5. In the *Application* and *OS Images* panel:
+   - For **Quick Start**, keep the default **Amazon Linux** chosen
+6. In the *Instance type* panel:
+   - Keep the default instance type, **t2.micro**.
+7. In the *Key pair (login)* panel:
+   - From the **Key pair name** - ***required*** dropdown list, choose **vockey**.
+8. In the **Network settings** section, choose **Edit**.
+   - From the **Subnet** dropdown list, choose the existing subnet in **Availability Zone us-east-1a**.
+   - For **Security group name** - ***required***, enter `Web Server security group`
+   - In the **Inbound security groups rules** section, Select **Remove** to remove the default rule.
+   - Choose **Add security group rule** to configure new rule as below
+     - **Type** : HTTP
+     - **Source type** : Anywhere
+9. In the _Configure storage_ panel:
+    - Keep the default storage configuration.
+
+10. Scroll down, and expand **Advanced Details** Panel, then configure:
+    - Scroll down to the field **User data**.
+    - Copy the following code and paste it into the **User data** field.
+      ```text
+      #!/bin/bash
+      yum update -y
+      yum -y install httpd
+      systemctl enable httpd
+      systemctl start httpd
+      echo '<html><h1>Hello World! This is server 1.</h1></html>' > /var/www/html/index.html
+      ```
+      - This script does the following:
+        - Updates the server
+        - Installs an Apache web server (httpd)
+        - Configures the web server to automatically start on boot
+        - Starts the web server
+        - Creates a simple webpage 
+11. Choose **Launch instance** .
+12. On the next screen, Choose **View all instances**.
+13. Before you continue, wait for your instance to display the following:
+    - **Instance state**:  Running
+    - **Status check**:  2/2 checks passed
+    - **Tip**: To refresh the instance information,  choose the refresh  icon.
+
+
+### Task 2. Access your EC2 instance’s website
+- In this task, you will access the content from the web server on the EC2 instance that you just created.
+14. Select the **Web Server 1** instance that you created earlier in this lab.
+15. In the **Details** tab copy the **Public IPv4 address** of your instance, then open a new tab in your web browser and paste in and load the address.
+    - It should display the web server page with the message *Hello World! This is server 1.**
+    - **Note**: If web page is not displayed, ensure that you are accessing page using http:// (not https://).
+
+
+### Task 3. Create a second EC2 instance for load balancing
+- In this task, you will create a second EC2 instance so that you will later be able to configure load balancing between the two instances.
+16. Return to the **EC2 Management Console** browser tab.
+17. Select the **Web Server 1** instance.
+18. From the **Actions** menu, choose Images and templates****, then choose **Launch more like this**
+    - A **Launch an instance** page opens.
+19. In the **Name and tags** pane, change the Name to `Web Server 2`.
+20. In the **Key pair (login)** section, from the **Key pair name** - ***required*** dropdown list, choose **vockey**.
+21. From the **Subnet** dropdown list, choose the existing subnet in **Availability Zone us-east-1b.**
+22. Scroll down, and expand the **Advanced Details** section, then scroll down to the **User data** field.
+23. Use copy and paste to replace the existing code with the code shown below.
+    ```text
+    #!/bin/bash
+    yum update -y
+    yum -y install httpd
+    systemctl enable httpd
+    systemctl start httpd
+    echo '<html><h1>Hello World! This is server 2.</h1></html>' > /var/www/html/index.html
+    ```
+    - **Note**: This script is almost the same as the one that you used for the first instance. However, notice that it says *This is server 2*. The text that displays when you access Web Server 2 will be different than the text of Web Server 1. When you access the instances through the load balancer, this difference in text is how you will know which instance is displayed.
+24. Choose **Launch instance** .
+25. On the next screen, Choose **View all instances**.
+26. Before you continue, wait for your instance to display the following:
+    - **Instance state**:  Running
+    - **Status check**:  2/2 checks passed
+    - **Tip**: To refresh the instance information, choose the refresh  icon.
+
+
+### Task 4. Access the website on the second EC2 instance
+27. Select the **Web Server 2** instance.
+28. In the **Details** tab copy the **Public IPv4 address** of your instance, then open a new tab in your web browser and paste in and load the address.
+29. This will open a new tab in your web browser and display the web server page with the message _Hello World! This is server 2_.
+    - Make a note of the _Availability Zones_ where the **Web Server 1** and **Web Server 2** instances are running. For example, **us-east-1a** and **us-east-1b**. You will need this information in the next task.
+
+
+### Task 5. Create a load balancer
+30. Back in the EC2 console, in the left navigation pane, under **Load Balancing**, choose **Load Balancers**.
+31. Select **Create Load Balancer**.
+    - **Tip**: An _Application Load Balancer_ has many features and can be used for HTTP and HTTPS traffic.
+32. Under **Application Load Balancer**, choose **Create**.
+33. In the _Basic Configuration_ panel:
+    - For **Name**, enter `myloadbalancer`.
+34. In the _Network mapping_ panel:
+    - Under Mappings, select the **Availability Zones** that you created the two instances in.
+    - For example, **us-east-1a** and **us-east-1b**.
+    - **Note**: The Subnet to use in each selected Availability Zone will be automatically populated.
+35. In the _Security Groups_ panel:
+    - Choose **Web Server security group** from the drop down menu.
+    - After you close the drop down menu, choose the **X** next to the **default security group** to remove it.
+36. In the _Listeners_ and _routing_ panel:
+    - Choose **Create target group**.
+    - This will open a new tab in your browser.
+37. In the _Basic Configuration_ panel:
+    - Keep the target type set to **Instances**.
+    - For **Target group name** enter `myalbTG`
+38. In the _Health checks_ panel:
+    - For **Health check path**, enter `index.html` after the forward slash ( / )
+    - The path should look like the following: `/index.html`
+39. Choose **Next**.
+40. In the **Register targets** page, in the **Available instances** panel, check the boxes next to the **Web Server 1** and **Web Server 2** instances that you created in this lab.
+41. Choose **Include as pending below**.
+    - Verify that both instances now appear in the **Targets** list below.
+42. Choose **Create target group**.
+    - A banner displays the message that the target group was successfully created.
+43. Return to the **Load Balancers** console tab in the browser.
+44. In the **Listeners and routing** section, under **Listener** choose the **refresh icon** .
+45. From the dropdown, chose the **myalbTG** target group you created.
+46. Scroll down and chose **Create load balancer**.
+    - When the load balancer is created, a _Successfully created load balancer_ message displays.
+47. Choose **View load balancer**.
+    - Before continuing, ensure that the **State** of the load balancer that you just created changes to _Active_.
+    - It can take a few minutes for it to become active.
+    - **Tip**: To refresh the load balancer information, choose the refresh  icon.
+
+
+### Task 6. Test the load balancer
+- In this task, you will test the load balancer that you just created.
+48. Select the load balancer that you just created, and expand the **Details** section.
+49. Under **Details**, copy the **DNS name** value to your clipboard.
+50. Open a new tab in your web browser, paste the DNS name that you just copied, and press **Enter**.
+    - If your load balancer is working, the _Hello World!_ message displays. Notice whether the message says _This is server 1_ or _This is server 2_.
+51. Refresh the browser tab a few times.
+    - Notice when the message changes between _This is server 1_ and _This is server 2_. When the message changes, it means that the load balancer has directed you to the web server on the other EC2 instance that you created in this lab.
+ 
