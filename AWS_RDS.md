@@ -16,7 +16,7 @@ Your new database displays in the list of databases. The status is *Creating*.
 
 
 ### Task 2. Download and install SQL Server Management Studio
-To connect to your RDS DB instance, you will need to download and install SQL Server Management Studio.
+- To connect to your RDS DB instance, you will need to download and install SQL Server Management Studio.
 8. In a new browser tab or window, go to https://aka.ms/ssmsfullsetup.
 9. Download the installation package to your computer.
 
