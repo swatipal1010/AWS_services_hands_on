@@ -158,7 +158,7 @@
     - You will now sign-in as *user-1*, who has been hired as your Amazon S3 storage support staff.
 33. Sign in with the following credentials:
     - **IAM user name**: `user-1`
-    - **Password**: `Lab-Password1`
+    - **Password**: `Lab-Password`
     ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/8e51d23d-909c-407c-9498-cd5f6951f0c6)
 
 34. Choose the **Services** menu, and choose **S3**.
@@ -181,7 +181,7 @@
 39. Paste the sign-in link into the private browser again, and press ENTER.
 40. Sign in with the following credentials:
     - **IAM user name**: `user-2`
-    - **Password:** `Lab-Password2`
+    - **Password:** `Lab-Password`
     ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/ddae6832-3fab-4a4e-8e05-8dbce8525638)
 
 41. Choose the **Services** menu, and choose **EC2**.
@@ -214,7 +214,7 @@
 48. Paste the sign-in link into the private browser again, and press ENTER.
 49. Sign in with the following credentials:
     - **IAM user name:** `user-3`
-    - **Password:** `Lab-Password3`
+    - **Password:** `Lab-Password`
     ![image](https://github.com/swatipal1010/AWS_services_hands_on/assets/110754474/a4a1a20f-567d-42fa-b700-e6e703ac1f35)
 
 50. Choose the **Services** menu, and choose **EC2**.
