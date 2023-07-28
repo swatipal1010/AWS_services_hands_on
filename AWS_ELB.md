@@ -8,7 +8,7 @@
 4. In the *Name* and *tags* panel:
    - For *Name* enter `Web Server 1`
 5. In the *Application* and *OS Images* panel:
-   - For **Quick Start**, keep the default **Amazon Linux** chosen
+   - For **Quick Start**, keep the default **Amazon Linux** chosen.
 6. In the *Instance type* panel:
    - Keep the default instance type, **t2.micro**.
 7. In the *Key pair (login)* panel:
